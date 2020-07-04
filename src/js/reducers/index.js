@@ -1,8 +1,9 @@
-import { ADD_ARTICLE, DATA_LOADED } from "../constants/action-types";
+import { ADD_ARTICLE, DATA_LOADED, API_ERRORED } from "../constants/action-types";
 
 const initialState = {
     articles: [],
-    remoteArticles: []
+    remoteArticles: [],
+    errors: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -16,6 +17,16 @@ function rootReducer(state = initialState, action) {
         return Object.assign({}, state, {
             remoteArticles: state.remoteArticles.concat(action.payload)
         })
+    }
+
+    if (action.type === API_ERRORED) {
+      return Object.assign({}, state, {
+        error: {
+          code: "API Called Failed",
+          message: action.payload
+        }
+        
+      })
     }
 
     return state;
